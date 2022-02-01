@@ -1,43 +1,24 @@
 require('./config/config')
-const express = require('express')
+const express = require('express');
 const app = express();
+const { dbConnection } = require('./database/config');
+require('dotenv').config();
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
-
 app.use(express.static('public'));
 
-app.get('/usuario', function (req, res) {
-  res.json('GET usuario')
-})
 
-app.post('/usuario', function (req, res) {
+//RUTAS
+app.use('/', require('./routes/usuario'));
 
-    if (req.body.nombre === undefined){
-        return res.status(400).json({
-            ok: false,
-            body: 'No existe el nombre'
-        })
-    }
 
-    res.status(201).json({
-        ok: true,
-        persona: req.body
-    })
-})
+dbConnection()
 
-app.put('/usuario/:id', function (req, res) {
-    let id = req.params.id;
+const port = process.env.PORT||'3000';
 
-    res.json({
-        id,
-    })
-})
-
-app.delete('/usuario', function (req, res) {
-    res.json('DELETE usuario')
-})
-
-app.listen(process.env.PORT, '0.0.0.0', ()=>{
+app.listen(port, '0.0.0.0', ()=>{
     console.log('Escuchando puerto: ', process.env.PORT);
 })

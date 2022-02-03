@@ -2,11 +2,12 @@ const {Router} = require('express');
 const Usuario = require ('../models/Usuario');
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
+const {verificarToken, verificarAdminRol} = require('../middlewares/autenticacion')
 
 const router = Router();
 
 
-router.get('/usuario', function (req, res) {
+router.get('/usuario', verificarToken ,(req, res)=> {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -36,7 +37,7 @@ router.get('/usuario', function (req, res) {
 
 })
   
-router.post('/usuario', async function (req, res) {
+router.post('/usuario', [verificarToken, verificarAdminRol], async(req, res)=>{
 
     let body = req.body;
     
@@ -77,7 +78,7 @@ router.post('/usuario', async function (req, res) {
     })
 })
 
-router.put('/usuario/:id', function (req, res) {
+router.put('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> {
     let id = req.params.id;
     let body = _.pick(req.body, ['name','email','img','role','estado'])
 
@@ -99,7 +100,7 @@ router.put('/usuario/:id', function (req, res) {
 
 })
 
-router.delete('/usuario/:id', function (req, res) {
+router.delete('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> {
     
     let id = req.params.id;
     let state = { estado: false}

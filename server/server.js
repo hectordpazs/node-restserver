@@ -13,6 +13,7 @@ app.use(express.static('public'));
 
 //RUTAS
 app.use('/', require('./routes/usuario'));
+app.use('/auth' , require('./routes/login'))
 
 
 dbConnection()

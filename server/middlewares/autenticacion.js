@@ -12,13 +12,13 @@ const verificarToken = (req, res, next)=>{
                 err:{
                     message: 'Token no valido'
                 }
-            })
+            });
         }
 
-        req.usuario = decoded.usuario
-        next()
+        req.usuario = decoded.usuario;
+        next();
 
-    })
+    });
 }
 
 
@@ -28,14 +28,14 @@ const verificarAdminRol = (req, res, next)=>{
     let usuario = req.usuario;
 
     if(usuario.role ==='ADMIN_ROLE'){
-        next()
+        next();
     }else{
         return res.json({
             ok:false,
             err:{
                 message: 'El usuario no es administrador'
             }
-        })
+        });
     }
 
 }

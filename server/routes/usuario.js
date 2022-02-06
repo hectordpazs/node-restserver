@@ -1,8 +1,9 @@
-const {Router} = require('express');
 const Usuario = require ('../models/Usuario');
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
-const {verificarToken, verificarAdminRol} = require('../middlewares/autenticacion')
+
+const {Router} = require('express');
+const {verificarToken, verificarAdminRol} = require('../middlewares/autenticacion');
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.get('/usuario', verificarToken ,(req, res)=> {
             return res.status(400).json({
                 ok: false,
                 err
-            })
+            });
         }
 
         Usuario.count({estado:true}, (err, conteo)=>{
@@ -31,8 +32,8 @@ router.get('/usuario', verificarToken ,(req, res)=> {
                 ok:true,
                 usuarios,
                 cuantos: conteo
-            })
-        })
+            });
+        });
     })
 
 })
@@ -43,13 +44,13 @@ router.post('/usuario', [verificarToken, verificarAdminRol], async(req, res)=>{
     
     const {email, password} = body;
     
-    let usuario = await Usuario.findOne({email})
+    let usuario = await Usuario.findOne({email});
 
     if(usuario){
         return res.status(400).json({
             ok: false,
             body: 'Ya existe un usuario con ese email'
-        })
+        });
     }
 
     usuario = new Usuario({
@@ -88,17 +89,17 @@ router.put('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> {
             return res.status(400).json({
                 ok: false,
                 err
-            })
+            });
         }
 
         res.json({
             ok:true,
             usuario: usuarioDB
-        })
+        });
         
-    })
+    });
 
-})
+});
 
 router.delete('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> {
     
@@ -110,7 +111,7 @@ router.delete('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> 
             return res.status(400).json({
                 ok: false,
                 err
-            })
+            });
         }
 
         if(!usuarioDB){
@@ -119,13 +120,13 @@ router.delete('/usuario/:id', [verificarToken, verificarAdminRol], (req, res)=> 
                 err: {
                     message: 'Usuario no encontrado'
                 }
-            })
+            });
         }
 
         res.json({
             ok:true,
             usuario: usuarioDB
-        })
+        });
     })
 
     /*Usuario.findByIdAndRemove(id, (err, usuarioBorrado)=>{

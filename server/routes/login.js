@@ -70,7 +70,7 @@ async function verify(token) {
   }
 
 router.post('/google' , async (req, res)=>{
-    let token = req.body.idtoken
+    let token = req.body.idtoken;
     
     let googleUser = await verify(token)
     .catch(e=>{

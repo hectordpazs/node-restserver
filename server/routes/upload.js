@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
 const fs = require('fs');
+const path = require ('path');
 const Producto = require('../models/Producto')
 const Usuario = require('../models/Usuario');
 
@@ -50,7 +51,8 @@ app.put('/upload/:tipo/:id', function (req, res){
 
     if (extensionesValidas.includes(extension)){
         
-        uploadPath = `uploads/${tipo}/${sampleFile.name}`;
+        uploadPath = path.resolve(__dirname,`../../uploads/${tipo}/${sampleFile.name}`);
+        //uploadPath = `uploads/${tipo}/${sampleFile.name}`;
 
         sampleFile.mv(uploadPath, (err)=> {
             if (err)
@@ -167,7 +169,8 @@ function imagenProducto(id, res, nombreArchivo){
 }
 
 function borraArchivo(nombreImagen, tipo){
-    let pathImagen = `uploads/${tipo}/${nombreImagen}`;
+    let pathImagen = path.resolve(__dirname,`../../uploads/${tipo}/${nombreImagen}`);
+    //let pathImagen = `uploads/${tipo}/${nombreImagen}`;
         
     if(fs.existsSync(pathImagen)){
         fs.unlinkSync(pathImagen);

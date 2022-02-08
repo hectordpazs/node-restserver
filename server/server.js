@@ -16,6 +16,8 @@ app.use('/', require('./routes/usuario'));
 app.use('/auth' , require('./routes/login'));
 app.use('/' , require('./routes/categoria'));
 app.use('/', require('./routes/producto'));
+app.use('/', require('./routes/upload'));
+app.use('/', require('./routes/imagenes'));
 
 //CONEXION A LA BASE DE DATOS:
 dbConnection();
